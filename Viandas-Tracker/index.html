@@ -1,0 +1,120 @@
+ï»¿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+<title>Viandas Tracker</title>
+<link rel="stylesheet" type="text/css" href="styles.css"/>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+
+ <body>
+ <div id="wrapper">
+ 
+ <div id="header">
+	<div id="cookie"></div>
+	<ul id="nav">
+		<li id="todaysmenu"><div id="todaysmenu1"></div></li>
+		<li id="updatemenu"><div id="updatemenu1"></div></li>
+		<li id="viewmenus"><div id="viewmenus1"></div></li>
+		<!--<li id="login"><a href="#">Log in</a></li>
+		<li id="myorder" class="loggedin">Ver mi pedido</li>
+		<li id="suscribe" class="loggedin">Suscribirme al newsletter</li>-->
+	</ul>
+ </div>
+ 
+ <div id="content">
+	<div id="todaysmenu-container">
+		<div id="todaysgrid">
+			<!--div id="todaysgridheader" class="row">
+				<div class="menuname">Menu</div><div class="supplier">Proveedor</div><div class="order"></div>
+			</div>
+			<div class='row'><div class='menuname'>Empanadas</div><div class='supplier'>La bruja</div><div class='order'><input type='button' id='asdfasdf' value='Hacer pedido'/></div></div-->
+		</div>
+	</div>
+	<div id="updatemenu-container"></div>
+	<div id="viewmenus-container"></div>
+ </div>
+ 
+ <div id="footer">
+    <div id="footContent">
+	<div id="foot1"><p>Globant Bah&iacute;a Blanca 2011</p></div>
+	<div id="pizza"></div>
+	<div id="foot2"><p>conmigo...</p></div>
+     </div> 
+ </div> 
+ 
+ <!--<div id="pizzacontainer">
+	<p>Globant Bahía Blanca 2011</p>
+	
+	<p>conmigo...</p>
+ </div>-->
+ 
+ </div><!-- wrapper -->
+
+ <script type="text/javascript">
+ 
+ //todaysmenu simple row:
+ $.template("todaysrowsimple","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}</div><div class='supplier'>${supplier}</div><div class='order'><input type='button' id='${id_menu}' value='Hacer pedido'/></div></div>");
+ 
+ //todaysmenu composite row:
+ $.template("todaysrowcomposite","<div class='row'><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' id='${id_menu}' value='Hacer pedido'/></div></div>");
+ 
+ //details row:
+ $.template("detailsrow","<div>${name_detail}: <input type='text' /></div>");
+ 
+ $(document).ready(function() {
+ 
+	$("#todaysmenu1").click(function() {
+		//vaciar la grilla:
+		$("#todaysgrid").html('<div id="todaysgridheader" class="row"><div class="menuname">Menu</div><div class="supplier">Proveedor</div><div class="order"></div></div>');
+		//consultar los menus de hoy, y por cada uno instanciar el template todaysrow y agregarlo a todaysgrid:
+		$.ajax({  
+			async: true,
+			success: function(data) { 
+				$.each(data, function(index,value) {
+					var menu = value;
+					var classtext = "odd";
+					if (index % 2 == 0) { classtext = "even"; };
+					/* var menu = {"id_menu":1,"name":"Empanadas","description":"Ricas empanadas","supplier":"Planeta Empanada","admin":"Damian Girardi","details":[{"id_detail":1,"name_detail":"Carne"},{"id_detail":2,"name_detail":"Jamon y Queso"},{"id_detail":3,"name_detail":"Anchoas"}]}; */
+					if (menu.details != "0") {
+						//agregar la composite row:
+						var compositerow = $.tmpl("todaysrowcomposite",menu);
+						compositerow.addClass(classtext);
+						compositerow.appendTo("#todaysgrid"); 
+						// agregar al div details el detalle de gustos:
+						var details = menu.details;
+						for (elem2 in details) {
+							var detailsrow = details[elem2];
+							$.tmpl("detailsrow", detailsrow).appendTo(compositerow.find('.details'));
+						}
+						//setear el evento click del boton plus:
+						compositerow.find(".plus").click(function(){
+							compositerow.find(".details").toggle(500);
+						});
+					} else { 
+						var simplerow = $.tmpl("todaysrowsimple", menu);
+						simplerow.addClass(classtext);
+						simplerow.appendTo("#todaysgrid");
+						};
+				});
+			},
+			//data: parametros,
+			dataType: "json",
+			url: "http://10.140.11.1:8888/Viandas/get_menues.php",
+			type: "get"
+		});  
+		//mostrar el container de menus
+		$("#todaysmenu-container").attr('display', 'block');
+		return false;
+	});
+	
+ });
+ 
+ </script>
+ 
+ </body>
+ </html>

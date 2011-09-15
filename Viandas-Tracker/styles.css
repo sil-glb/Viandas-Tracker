@@ -1,0 +1,181 @@
+* {
+margin: 0;
+padding: 0;
+font-family: Verdana;
+font-size: 12px;
+}
+
+body{
+    background: #585858;
+}
+
+input {
+border: 0;
+background: transparent;
+}
+
+#wrapper {
+    background:url("images/background-content.png") repeat-y;
+    margin: 0 auto;
+    width: 784px;
+}
+
+#header {
+background: url("images/header1.png") no-repeat;
+padding-top:10px;
+width: 616px;
+height: 168px;
+margin: 0 auto;
+
+}
+
+#cookie { background: url("images/Logo.png") no-repeat;
+margin: 0 auto;
+width: 495px;
+height: 132px;
+/*top:20px;
+position:relative;*/
+}
+
+#nav {
+margin: 0 auto -10px auto;
+padding-top:12px;
+padding-left:30px;
+}
+#nav > li { height: 30px;
+display: inline;
+padding: 0 20px;
+float:left;
+width:150px;
+
+}
+.loggedin {
+display: none;
+}
+
+/* content */
+
+#content {
+height: 400px;
+width: 784px;
+margin: 0 auto;
+}
+
+#todaysgrid {
+width: 400px;
+margin: 20px auto 0 auto;
+color: rgb(118,146,131); /* verde oscuro, texto */
+}
+#todaysgridheader {
+border-top: 2px green solid;
+border-bottom: 1px green solid;
+}
+.even {
+background: rgb(230,238,213); /* verde claro, fondo */
+}
+.odd {
+background: white;
+}
+.menuname,.supplier,.order {
+display: inline-block;
+width: 130px;
+}
+.menuid {
+display: none;
+}
+.plus {
+display: inline-block;
+width: 20px;
+}
+.details {
+display: none;
+position: fixed;
+border: 1px solid black;
+background: white;
+}
+
+#updatemenu-container {
+display: none;
+}
+
+#viewmenus-container {
+display: none;
+}
+
+/* footer */
+
+#footer {
+background:url("images/background-foot.png") #585858 no-repeat;
+margin: 0 auto;
+width: 784px;
+height: 13px;
+}
+
+#userinfo { background: black; color: white; height: 40px;
+float: left;
+}
+
+#timeinfo { background: black; color: white; height: 40px;
+float: right;
+}
+/*
+#pizzacontainer { background: black; color: white; height: 40px;
+position: absolute;
+z-index: 1;
+margin: 0 30%;
+top: 540px;
+}*/
+
+/*#pizza, #pizzacontainer > p {
+display: inline;
+}*/
+
+#pizza{
+    background:url("images/pizza.png") no-repeat center;
+    width:119px;
+    height:99px;
+    margin: 0 auto;
+    position:relative;
+    bottom:50px;
+    float:left;
+}
+
+#todaysmenu1{
+    background:url("images/VerMenu.png") transparent no-repeat center;
+    width:150px;
+    height:29px;
+    
+}
+
+#updatemenu1{
+    background:url("images/CargarMenu.png") transparent no-repeat center;
+    width:150px;
+    height:29px;
+   
+}
+#viewmenus1{
+    background:url("images/VerPedidos.png") transparent no-repeat;
+     width:150px;
+    height:29px;
+    
+}
+#foot1{
+    float:left;
+    position:relative;
+    top:5px;
+    font-size:14px;
+}
+
+#foot2{
+     float: left;
+    left: -60px;
+    padding: 10px;
+    position: relative;
+      font-size:14px;
+    top: 15px;
+}
+
+#footContent{
+    margin:0 auto;
+     width: 384px;
+}
