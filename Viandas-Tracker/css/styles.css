@@ -359,3 +359,27 @@ display: none;
 }
 
 
+.globant {
+	float:right;
+	margin-right:50px;
+	margin-top:150px;
+}
+
+.logoutbutton {
+	float:right;
+	padding-right:20px;
+}
+
+.logoutbutton a{
+	font-family:Arial;
+	color:#2E6E9E;
+	text-decoration:none;
+	font-weight:bold;
+}
+
+.logoutbutton a:hover{
+	font-family:Arial;
+	color:#2E6E9E;
+	text-decoration:none;
+	font-weight:bold;
+}
