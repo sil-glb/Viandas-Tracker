@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	
 	
-	$('#content').load('cargarPedidos.html', cargarForm);
+	$('#content').load('principal.html', cargarForm);
 	
 	$("#updatemenu").click(function(){
 		$('#content').load('cargarPedidos.html', cargarForm);
@@ -200,6 +200,103 @@ $(document).ready(function(){
 //		 
 //		 $("#list2").jqGrid('filterToolbar',
 //                    {stringResult:true,searchOnEnter:true,defaultSearch:"cn"});
-
+	//todaysmenu simple row:
+	$.template("todaysrowsimple","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}</div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
+	
+	//todaysmenu composite row:
+	$.template("todaysrowcomposite","<div class='row'><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
+	
+	//details row:
+	$.template("detailsrow","<div>${name_detail}: <input type='text' /></div>");
+	
+	$("#todaysmenu1").click(function(){
+		$('#content').load('verMenues.html', mostrarMenues);
+		
+	});
+	
+	function mostrarMenues(){
+			//vaciar la grilla:
+		$("#todaysgrid").html('<div id="todaysgridheader" class="row"><div class="menuname">Menu</div><div class="supplier">Proveedor</div><div class="order"></div></div>');
+		//consultar los menus de hoy, y por cada uno instanciar el template todaysrow y agregarlo a todaysgrid:
+		$.ajax({  
+			async: true,
+			success: function(data) { 
+				$.each(data, function(index,value) {
+					var menu = value;
+					var classtext = "odd";
+					if (index % 2 == 0) { classtext = "even"; };
+					/* var menu = {"id_menu":1,"name":"Empanadas","description":"Ricas empanadas","supplier":"Planeta Empanada","admin":"Damian Girardi","details":[{"id_detail":1,"name_detail":"Carne"},{"id_detail":2,"name_detail":"Jamon y Queso"},{"id_detail":3,"name_detail":"Anchoas"}]}; */
+					if (menu.details != "0") {
+						//agregar la composite row:
+						var compositerow = $.tmpl("todaysrowcomposite",menu);
+						compositerow.addClass(classtext);
+						compositerow.appendTo("#todaysgrid"); 
+						// agregar al div details el detalle de gustos:
+						var details = menu.details;
+						for (elem2 in details) {
+							var detailsrow = details[elem2];
+							$.tmpl("detailsrow", detailsrow).appendTo(compositerow.find('.details'));
+						}
+						//setear el evento click del boton plus:
+						compositerow.find(".plus").click(function(){
+							compositerow.find(".details").toggle(500);
+						});
+						//des-setear el evento click para el div details (sino, lo hereda del boton plus):
+						compositerow.find(".details").click(function(e){
+							e.stopPropagation();
+						});
+						//setear el evento click para el boton Hacer pedido:
+						compositerow.find(".pedir").click(function(){
+							//chequear que haya al menos una empanada:
+							var quant = 0; 
+							var total = 0; 
+							var details = new Array();
+							$.each(compositerow.find(".details").children(), function(index, value) {
+								//armar el json para enviar!!! (ir sumando en total)
+								var jqueryobj = $(value);
+								var gusto = jqueryobj.text().substring(0,jqueryobj.text().indexOf(':'));
+								quant = jqueryobj.children().first().val(); //el input es el unico hijo
+								total = total + quant;
+							});
+							if (total==0) {
+								alert("Debe encargar por lo menos una unidad.");
+								return;
+							} else {
+								//pedir confirmacion por "total unidades":
+								
+								//enviar el request:
+								var parametros = { 
+									"user_token": token,
+									"menu_id": "12345",
+									"details": details };
+								$.ajax({  
+									async: true,
+									
+									data: parametros,
+									dataType: "json",
+									url: "...",
+									type: "get"
+								});
+							}
+							return false;
+						});
+					} else { 
+						var simplerow = $.tmpl("todaysrowsimple", menu);
+						simplerow.addClass(classtext);
+						simplerow.appendTo("#todaysgrid");
+						//setear el evento click para el boton Hacer pedido:
+						
+					};
+				});
+			},
+			//data: parametros,
+			dataType: "json",
+			url: "http://10.140.11.1:8888/Viandas/get_menues.php",
+			type: "get"
+		});  
+		//mostrar el container de menus
+		$("#todaysmenu-container").attr('display', 'block');
+		return false;
+	};
 
 });

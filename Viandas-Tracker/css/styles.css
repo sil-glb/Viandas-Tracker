@@ -1,8 +1,13 @@
 * {
 margin: 0;
 padding: 0;
-/*border: 1px solid black;*/
+
 }
+
+
+
+/*border: 1px solid black;*/
+
 
 /*html {
 font-size: 75%;
@@ -12,13 +17,13 @@ body{
 	font-size: 75%;
 }
 #wrapper {
-    background:url("images/background-content.png") repeat-y;
+    background:url("../images/background-content.png") repeat-y;
     margin: 0 auto;
     width: 784px;
 }
 
 #header {
-background: url("images/header1.png") no-repeat;
+background: url("../images/header1.png") no-repeat;
 padding-top:10px;
 width: 616px;
 height:168px;
@@ -26,7 +31,7 @@ margin: 0 auto;
 
 }
 
-#cookie { background: url("images/Logo.png") no-repeat;
+#cookie { background: url("../images/Logo.png") no-repeat;
 margin: 0 auto;
 width: 495px;
 height: 132px;
@@ -62,7 +67,7 @@ margin: 0 auto;
 /* footer */
 
 #footer {
-background:url("images/background-foot.png") #585858 no-repeat;
+background:url("../images/background-foot.png") #585858 no-repeat;
 margin: 0 auto;
 width: 784px;
 height: 13px;
@@ -88,7 +93,7 @@ display: inline;
 }*/
 
 #pizza{
-    background:url("images/pizza.png") no-repeat center;
+    background:url("../images/pizza.png") no-repeat center;
     width:119px;
     height:99px;
     margin: 0 auto;
@@ -98,20 +103,20 @@ display: inline;
 }
 
 #todaysmenu1{
-    background:url("images/VerMenu.png") transparent no-repeat center;
+    background:url("../images/VerMenu.png") transparent no-repeat center;
     width:150px;
     height:29px;
     
 }
 
 #updatemenu1{
-    background:url("images/CargarMenu.png") transparent no-repeat center;
+    background:url("../images/CargarMenu.png") transparent no-repeat center;
     width:150px;
     height:29px;
    
 }
 #viewmenus1{
-    background:url("images/VerPedidos.png") transparent no-repeat;
+    background:url("../images/VerPedidos.png") transparent no-repeat;
      width:150px;
     height:29px;
     
@@ -166,7 +171,7 @@ display: inline;
 }
 
 .mainContent{
-    background: url("images/home.png") no-repeat;
+    background: url("../images/home.png") no-repeat;
     width:519px;
     height:63px;
     margin:0 auto;
@@ -197,7 +202,7 @@ display: inline;
 
 /* Estilos Formulario*/
 
-/*#commentForm { width: 500px; }
+#commentForm { width: 500px; }
 
 #commentForm label { width: 250px; }
 
@@ -292,9 +297,65 @@ input {	border: 1px solid black; }
 input.checkbox { border: none }
 input:focus { border: 1px dotted black; }
 input.error { border: 1px dotted red; }
-form.cmxform .gray * { color: gray; }*/
+form.cmxform .gray * { color: gray; }
 
 #divDetails{
     
 }
+
+#todaysgrid {
+width: 400px;
+margin: 20px auto 0 auto;
+color: rgb(118,146,131); /* verde oscuro, texto */
+font-family: Verdana;
+font-size: 12px;
+}
+
+#todaysgrid input {
+border: 0;
+background: transparent;
+}
+#todaysgridheader {
+border-top: 2px green solid;
+border-bottom: 1px green solid;
+}
+.even {
+background: rgb(230,238,213); /* verde claro, fondo */
+}
+.odd {
+background: white;
+}
+.menuname,.supplier,.order {
+display: inline-block;
+width: 130px;
+}
+.order > input {
+cursor: pointer;
+}
+.menuid {
+display: none;
+}
+.plus {
+display: inline-block;
+margin-left: 5px;
+padding: 0px 2px 2px 2px;
+border: 1px solid rgb(118,146,131);
+cursor: pointer;
+}
+.details {
+display: none;
+position: fixed;
+border: 1px solid black;
+background: white;
+cursor: auto;
+}
+
+#updatemenu-container {
+display: none;
+}
+
+#viewmenus-container {
+display: none;
+}
+
 
