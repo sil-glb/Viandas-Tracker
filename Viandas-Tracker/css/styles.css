@@ -1,0 +1,300 @@
+* {
+margin: 0;
+padding: 0;
+/*border: 1px solid black;*/
+}
+
+/*html {
+font-size: 75%;
+}*/
+body{
+    background: #585858;
+	font-size: 75%;
+}
+#wrapper {
+    background:url("images/background-content.png") repeat-y;
+    margin: 0 auto;
+    width: 784px;
+}
+
+#header {
+background: url("images/header1.png") no-repeat;
+padding-top:10px;
+width: 616px;
+height:168px;
+margin: 0 auto;
+
+}
+
+#cookie { background: url("images/Logo.png") no-repeat;
+margin: 0 auto;
+width: 495px;
+height: 132px;
+/*top:20px;
+position:relative;*/
+}
+
+#nav {
+margin: 0 auto -10px auto;
+padding-top:12px;
+padding-left:30px;
+}
+#nav > li { height: 30px;
+display: inline;
+padding: 0 20px;
+float:left;
+width:150px;
+
+}
+.loggedin {
+visibility: hidden;
+}
+
+/* content */
+
+
+#content {
+height: 400px;
+width: 784px;
+margin: 0 auto;
+}
+
+/* footer */
+
+#footer {
+background:url("images/background-foot.png") #585858 no-repeat;
+margin: 0 auto;
+width: 784px;
+height: 13px;
+}
+
+#userinfo { background: black; color: white; height: 40px;
+float: left;
+}
+
+#timeinfo { background: black; color: white; height: 40px;
+float: right;
+}
+
+#pizzacontainer { background: black; color: white; height: 40px;
+position: absolute;
+z-index: 1;
+margin: 0 30%;
+top: 540px;
+}
+
+/*#pizza, #pizzacontainer > p {
+display: inline;
+}*/
+
+#pizza{
+    background:url("images/pizza.png") no-repeat center;
+    width:119px;
+    height:99px;
+    margin: 0 auto;
+    position:relative;
+    bottom:50px;
+    float:left;
+}
+
+#todaysmenu1{
+    background:url("images/VerMenu.png") transparent no-repeat center;
+    width:150px;
+    height:29px;
+    
+}
+
+#updatemenu1{
+    background:url("images/CargarMenu.png") transparent no-repeat center;
+    width:150px;
+    height:29px;
+   
+}
+#viewmenus1{
+    background:url("images/VerPedidos.png") transparent no-repeat;
+     width:150px;
+    height:29px;
+    
+}
+#foot1{
+    float:left;
+    position:relative;
+    top:12px;
+    font-size:11px;
+    color:#b5b5b5;
+    font-weight: bold;
+      font-family:verdana;
+}
+
+#foot2{
+     float: left;
+    left: -60px;
+    padding: 10px;
+    position: relative;
+      font-size:11px;
+    top: 15px;
+    font-weight: bold;
+      color:#b5b5b5;
+      font-family:verdana;
+}
+
+#footContent{
+    margin:0 auto;
+     width: 384px;
+}
+
+#orders{
+	width:680px;
+	margin: 0 auto;
+	padding: 30px 0 0;
+        font-size: 75%;
+}
+
+
+#confirmar{
+        font-size: 14px;
+        font-family: verdana;
+        margin: 0 auto;
+        width : 150px;
+        padding-top : 5px;
+        font-weight:bold;
+}
+
+#confirmar:hover{
+        cursor: pointer;
+        color: #66BC29;
+}
+
+.mainContent{
+    background: url("images/home.png") no-repeat;
+    width:519px;
+    height:63px;
+    margin:0 auto;
+    margin-top: 60px;
+    
+}
+
+#cargarMenu{
+    width: 500px;
+    margin: 0 auto;
+    padding: 60px 0 0 0;
+}
+
+
+/* Estilos Login*/
+.logintext {
+    font-family:Arial;
+    color:#555555;
+    font-size:12px;
+    margin-bottom:30px;
+    text-align:center;
+    margin-top:20px;
+}
+
+.fbbutton {
+    text-align:center;
+}
+
+/* Estilos Formulario*/
+
+/*#commentForm { width: 500px; }
+
+#commentForm label { width: 250px; }
+
+#commentForm label.error, #commentForm input.submit { margin-left: 253px; }
+
+form.cmxform fieldset {
+	margin-bottom: 10px;
+}
+
+form.cmxform legend {
+	padding: 0 2px;
+	font-weight: bold;
+	_margin: 0 -7px; 
+}
+
+form.cmxform label {
+	display: inline-block;
+	line-height: 1.8;
+	vertical-align: top;
+
+}
+
+form.cmxform fieldset p {
+	list-style: none;
+	padding: 5px;
+	margin: 0;
+}
+
+form.cmxform fieldset fieldset {
+	border: none;
+	margin: 3px 0 0;
+}
+
+form.cmxform fieldset fieldset legend {
+	padding: 0 0 5px;
+	font-weight: normal;
+}
+
+form.cmxform fieldset fieldset label {
+	display: block;
+	width: auto;
+}
+
+form.cmxform label { width: 100px; } 
+form.cmxform fieldset fieldset label { margin-left: 103px; } 
+form.cmxform label.error {
+	margin-left: 103px;
+	width: 220px;
+}
+
+form.cmxform input.submit {
+	margin-left: 103px;
+}
+
+form.cmxform {
+	width: 370px;
+	font-size: 1.0em;
+	color: #333;
+}
+
+form.cmxform legend {
+	padding-left: 0;
+}
+
+form.cmxform legend, form.cmxform label {
+	color: #333;
+}
+
+form.cmxform fieldset {
+	border: none;
+	border-top: 1px solid #C9DCA6;
+	background: url(../images/cmxform-fieldset.gif) left bottom repeat-x;
+	background-color: #F8FDEF;
+}
+
+form.cmxform fieldset fieldset {
+	background: none;
+}
+
+form.cmxform fieldset p, form.cmxform fieldset fieldset {
+	padding: 5px 10px 7px;
+	background: url(../images/cmxform-divider.gif) left bottom repeat-x;
+}
+
+form.cmxform label.error, label.error {
+	
+	color: red;
+	font-style: italic
+}
+div.error { display: none; }
+input {	border: 1px solid black; }
+input.checkbox { border: none }
+input:focus { border: 1px dotted black; }
+input.error { border: 1px dotted red; }
+form.cmxform .gray * { color: gray; }*/
+
+#divDetails{
+    
+}
+
