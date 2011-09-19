@@ -319,7 +319,7 @@ $(document).ready(function(){
 	$.template("todaysrowcomposite","<div class='row'><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//details row:
-	$.template("detailsrow","<div><div class='detailid'>${id_detail}</div>${name_detail}: <input type='text' /></div>");
+	$.template("detailsrow","<div>${name_detail}: <input type='text' /><div class='detailid'>${id_detail}</div></div>");
 	
 	$("#todaysmenu1").click(function(){
 		$('#content').load('verMenues.html', mostrarMenues);
@@ -367,11 +367,11 @@ $(document).ready(function(){
 								//armar el json para enviar!!! (ir sumando en total)
 								var jqueryobj = $(value);
 								//var gusto = jqueryobj.text().substring(0,jqueryobj.text().indexOf(':'));
-								var d_id = jqueryobj.find(".detailsid").text();
-								quant = jqueryobj.children().first().val(); //el input es el unico hijo
+								var d_id = jqueryobj.find(".detailid").text();
+								quant = jqueryobj.children().first().val(); //el input es el primer hijo
 								total = total + quant;
 								var obj = { "id_detail": d_id, "cant": quant };
-								details.append(obj);
+								details.push(obj);
 							});
 							if (total==0) {
 								alert("Debe encargar por lo menos una unidad.");
