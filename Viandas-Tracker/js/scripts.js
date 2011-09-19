@@ -1,3 +1,24 @@
+
+
+ $(document).ready(function(){
+	//initializing API
+	FB.init({appId: '114353212003918', status: true,
+	cookie: true, xfbml: true});
+	
+	FB.getLoginStatus(function(response) {		  
+      if (response.status == 'unknown') {	  
+		 window.location.href = 'login.html';
+	  } 
+	});	
+	
+	$('#logout').click(function() {
+			FB.logout(function(response) {
+				window.location.href = 'login.html';
+			});
+	});	
+ });
+
+
 $(document).ready(function(){
 	
 	
@@ -94,7 +115,7 @@ $(document).ready(function(){
 			$.ajax({
 				    async:          true,
 				    data:               json_par,
-				    url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/update_menu.php",				    type:      		"post",
+				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/update_menu.php",				    type:      		"post",
 				    success:            finInsert
 			});
 			return false;
@@ -159,7 +180,7 @@ $(document).ready(function(){
 		     
 			$.ajax({
 					async:          true,
-					url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_orders.php",
+					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_orders.php",
 					type:      		"post",
 					success:            finOrders,
 					dataType: 		"json"
@@ -231,7 +252,7 @@ $(document).ready(function(){
 					    
 				    $.ajax({
 					async:          true,
-					url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
+					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
 					type:      		"get",
 					data :		pedidos,
 					success:            finConfirm,
@@ -362,10 +383,12 @@ $(document).ready(function(){
 									"details": details };
 								$.ajax({  
 									async: true,
-									
+									success: function(data) {
+										alert("Su pedido fue registrado. En breve le enviaremos la confirmación vía email.");
+									},
 									data: parametros,
 									dataType: "json",
-									url: "...",
+									url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/hacer_pedido.php",
 									type: "get"
 								});
 							}
@@ -382,7 +405,7 @@ $(document).ready(function(){
 			},
 			//data: parametros,
 			dataType: "json",
-			url: "http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_menues.php",
+			url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_menues.php",
 			type: "get"
 		});  
 		//mostrar el container de menus

@@ -25,23 +25,7 @@
  <div id="fb-root"></div>
  <script src="http://connect.facebook.net/es_ES/all.js"></script>
  <script>
- $(document).ready(function(){
-	//initializing API
-	FB.init({appId: '114353212003918', status: true,
-	cookie: true, xfbml: true});
-	
-	FB.getLoginStatus(function(response) {		  
-      if (response.status == 'unknown') {	  
-		 window.location.href = 'login.html';
-	  } 
-	});	
-	
-	$('#logout').click(function() {
-			FB.logout(function(response) {
-				window.location.href = 'login.html';
-			});
-	});	
- });
+
  </script>
  <div id="wrapper">
  
