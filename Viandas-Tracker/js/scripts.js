@@ -252,8 +252,9 @@ $(document).ready(function(){
 		     
 			$.ajax({
 					async:          true,
+                                        data:           'token='+token,
 					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_orders.php",
-					type:      		"post",
+					type:      		"get",
 					success:            finOrders,
 					dataType: 		"json"
 				     });
