@@ -393,3 +393,8 @@ display: none;
 	text-decoration:none;
 	font-weight:bold;
 }
+
+#ui-datepicker-div{
+    display:none;
+}
+    
