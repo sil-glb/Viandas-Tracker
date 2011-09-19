@@ -92,6 +92,16 @@ $(document).ready(function(){
 				
 			});
 		
+                function urlencode (str) {
+                     // URL-encodes string  
+                     // 
+                     str = (str + '').toString();
+                      // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+                     // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+                     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
+                     replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+                 };
+                 
 		$("#commentForm").submit(function () {
 			 if (!$(this).valid()){
 				return false;
@@ -105,49 +115,71 @@ $(document).ready(function(){
                             
 			var parametros = $(this).serializeArray();
         
-			var par = {};
+			var par = "";
 					
-			$.each(parametros, function() {
-			    if (par[this.name] !== undefined) {
-				if (!par[this.name].push) {
-				    par[this.name] = [par[this.name]];
-				}
-				par[this.name].push(this.value || '');
-			    } else {
-				par[this.name] = this.value || '';
-			    }
-			});
+			//$.each(parametros, function() {
+			//    if (par[this.name] !== undefined) {
+			//	if (!par[this.name].push) {
+			//	    par[this.name] = [par[this.name]];
+			//	}
+			//	par[this.name].push(this.value || '');
+			//    } else {
+			//	par[this.name] = this.value || '';
+			//    }
+			//});
 			
 			
 			
-			var details = [];
+			var details = "";
 			
 			var numDetails = jQuery('#clistDetails').jqGrid('getGridParam','records');
-						
 				
 			for(var i=1;i<=numDetails;i++){
 				
 				var ret = jQuery("#clistDetails").jqGrid('getRowData',i);
+				details = details + "\""+ret.detalle+"\"";
+                                
+                                if (i!=numDetails){
+                                   details = details + ", ";
+                                }
 				
-				details.push(ret.detalle);
 					
 				
 			}
 			
-			par["lista"] = details || '';
+                        details = "["+details+"]"
+                        
+//			par["lista"] = details || '';
+//			
+//                      par["token"] = token || '';
 			
-                        par["token"] = token || '';
-			
+                     var par = "";
+                     $.each(parametros, function() {
+                              par = par + "\""+this.name+"\""+":\""+this.value+"\"";
+                              par = par + ",";
+                                
+                          });
+                       par = par + "\"detalles\":"+details;
+                       par = "{"+par+"}";
+                          
+                       
+                          
+                          //var json_par = eval("(" + par + ")");
+                          //var parametros = {"name":"1", "sname":"2", "user":"2", "pw":"2", "rpw":"2", "date":"12/12/2011", "email":"e@g.com", "lng":"ingles", "guser":"ulises.coplo"};
+                          //var json_par = jQuery.parseJSON(par);
+                        
+                        
+                        
                         var json_par = par;
                                               
                         
                
 			$.ajax({
 				    async:          true,
-				    data:               'menu='+json_par,
+				    data:               'menu='+urlencode(json_par),
 				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_menu.php",
                                     type:      		"get",
-				    success:            finUpdate
+                                    success:            finUpdate
 			});
                         console.debug(par)
 			return false;
