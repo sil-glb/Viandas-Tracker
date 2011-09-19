@@ -1,29 +1,27 @@
 
-
- $(document).ready(function(){
-	//initializing API
+$(document).ready(function(){
+	
+        var token;
 	FB.init({appId: '114353212003918', status: true,
 	cookie: true, xfbml: true});
 	
 	FB.getLoginStatus(function(response) {		  
-      if (response.status == 'unknown') {	  
+              if (response.status == 'unknown') {	  
 		 window.location.href = 'login.html';
-	  } 
+              }
+              else{
+                 token = response.session.access_token;
+
+              }
 	});	
 	
 	$('#logout').click(function() {
 			FB.logout(function(response) {
 				window.location.href = 'login.html';
 			});
-	});	
- });
-
-
-$(document).ready(function(){
+	});		
 	
-	
-	
-	$('#content').load('principal.html', cargarForm);
+	$('#content').load('principal.html');
 	
 	$("#updatemenu").click(function(){
 		$('#content').load('cargarMenues.html', cargarForm);
@@ -32,6 +30,22 @@ $(document).ready(function(){
 	
 	function cargarForm(){
 		var rowDetail;
+                
+                
+                
+                $( "#cfecha" ).datepicker({
+                            dateFormat: 'yy-mm-dd'
+		//	showOn: "button",
+		//    	buttonImage: "images/calendar.gif",
+		//	buttonImageOnly: true
+		});
+                
+                  $.validator.addMethod("DateFormat", function(value,element) {
+                            return value.match(/^(19|20)\d\d([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/);
+                                },
+                                    "Fecha en formato yyyy-mm-dd"
+                                );
+
 		jQuery("#clistDetails").jqGrid({
 				datatype: "local",
 				height: 50,
@@ -43,18 +57,26 @@ $(document).ready(function(){
 				], 
 				
 				caption: "Detalles",
-				rowNum:10, rowList:[10,20,30], viewrecords: true, sortorder: "desc", caption: "Full control",
 				
+//				cellsubmit:'clientArray',
+//                                cellEdit:true,
+                                //editurl:'clientArray',
+                                url:'clientArray',
 
 				onSelectRow: function(id){
+                                          
 					if(id && id!==rowDetail){
 						//alert("algoo");
-						//jQuery('#clistDetails').jqGrid('editRow',id,true);
-						//jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
+                                               
+						jQuery('#clistDetails').jqGrid('editRow',id,true);
+						jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
 						//
-						//jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
+                                                jQuery("#clistDetails").jqGrid('saveRow',rowDetail, "aa" , 'clientArray');
+						//jQuery('#clistDetails').jqGrid('saveRow',rowDetail);
 						////jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
-						//rowDetail=id;
+						rowDetail=id;
+                                                
+                                                
 						}
 					
 				}
@@ -74,7 +96,13 @@ $(document).ready(function(){
 			/* if (!$(this).valid()){
 				return false;
 			}*/
-			
+			//alert(rowDetail);
+                        if(rowDetail){
+                            jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
+                            jQuery("#clistDetails").jqGrid('saveRow',rowDetail, "aa" , 'clientArray');
+                            
+                        }
+                            
 			var parametros = $(this).serializeArray();
         
 			var par = {};
@@ -90,7 +118,7 @@ $(document).ready(function(){
 			    }
 			});
 			
-			console.debug(par);
+			
 			
 			var details = [];
 			
@@ -108,20 +136,27 @@ $(document).ready(function(){
 			
 			par["lista"] = details || '';
 			
+                        par["token"] = token || '';
 			
-			var json_par = par;
-        
+                        var json_par = par;
+                                              
+                        
                
 			$.ajax({
 				    async:          true,
-				    data:               json_par,
-				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/update_menu.php",				    type:      		"post",
-				    success:            finInsert
+				    data:               'menu='+json_par,
+				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_menu.php",
+                                    type:      		"get"
+				    //success:            finUpdate
 			});
+                        console.debug(par)
 			return false;
-			    
+			
+                        
 		});
 		
+              
+                
 		jQuery("#addDetails").click( function(){
 			
 			var cant = jQuery('#clistDetails').jqGrid('getGridParam','records')+1;
@@ -245,7 +280,8 @@ $(document).ready(function(){
 						    par = "\"id_order\""+":\""+ret.id_order+"\"";
 						    par = "{"+par+"}";
 						    
-						    pedidos.push(jQuery.parseJSON(par));
+						    //pedidos.push(jQuery.parseJSON(par));
+                                                    pedidos.push(ret.id_order);
 					    }
 				    }
 			    
@@ -253,8 +289,8 @@ $(document).ready(function(){
 				    $.ajax({
 					async:          true,
 					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
-					type:      		"get",
-					data :		pedidos,
+					type:      	"get",
+					data :		'orders='+pedidos,
 					success:            finConfirm,
 					error:            function(){alert("Error en la confirmación de los pedidos");$('#listOrders').trigger("reloadGrid");},
 					dataType: 		"json"
