@@ -63,6 +63,7 @@ visibility: hidden;
 min-height : 200px;
 width: 784px;
 margin: 0 auto;
+margin-bottom:60px;
 }
 
 /* footer */
@@ -354,6 +355,9 @@ position: fixed;
 border: 1px solid black;
 background: white;
 cursor: auto;
+}
+.detailid {
+display: none;
 }
 
 #updatemenu-container {

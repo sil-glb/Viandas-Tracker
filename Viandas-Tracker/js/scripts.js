@@ -1,29 +1,27 @@
 
-
- $(document).ready(function(){
-	//initializing API
+$(document).ready(function(){
+	
+        var token;
 	FB.init({appId: '114353212003918', status: true,
 	cookie: true, xfbml: true});
 	
 	FB.getLoginStatus(function(response) {		  
-      if (response.status == 'unknown') {	  
+              if (response.status == 'unknown') {	  
 		 window.location.href = 'login.html';
-	  } 
+              }
+              else{
+                 token = response.session.access_token;
+
+              }
 	});	
 	
 	$('#logout').click(function() {
 			FB.logout(function(response) {
 				window.location.href = 'login.html';
 			});
-	});	
- });
-
-
-$(document).ready(function(){
+	});		
 	
-	
-	
-	$('#content').load('principal.html', cargarForm);
+	$('#content').load('principal.html');
 	
 	$("#updatemenu").click(function(){
 		$('#content').load('cargarMenues.html', cargarForm);
@@ -32,6 +30,22 @@ $(document).ready(function(){
 	
 	function cargarForm(){
 		var rowDetail;
+                
+                
+                
+                $( "#cfecha" ).datepicker({
+                            dateFormat: 'yy-mm-dd'
+		//	showOn: "button",
+		//    	buttonImage: "images/calendar.gif",
+		//	buttonImageOnly: true
+		});
+                
+                  $.validator.addMethod("DateFormat", function(value,element) {
+                            return value.match(/^(19|20)\d\d([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/);
+                                },
+                                    "Fecha en formato yyyy-mm-dd"
+                                );
+
 		jQuery("#clistDetails").jqGrid({
 				datatype: "local",
 				height: 50,
@@ -43,18 +57,26 @@ $(document).ready(function(){
 				], 
 				
 				caption: "Detalles",
-				rowNum:10, rowList:[10,20,30], viewrecords: true, sortorder: "desc", caption: "Full control",
 				
+//				cellsubmit:'clientArray',
+//                                cellEdit:true,
+                                //editurl:'clientArray',
+                                url:'clientArray',
 
 				onSelectRow: function(id){
+                                          
 					if(id && id!==rowDetail){
 						//alert("algoo");
-						//jQuery('#clistDetails').jqGrid('editRow',id,true);
-						//jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
+                                               
+						jQuery('#clistDetails').jqGrid('editRow',id,true);
+						jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
 						//
-						//jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
+                                                jQuery("#clistDetails").jqGrid('saveRow',rowDetail, "aa" , 'clientArray');
+						//jQuery('#clistDetails').jqGrid('saveRow',rowDetail);
 						////jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
-						//rowDetail=id;
+						rowDetail=id;
+                                                
+                                                
 						}
 					
 				}
@@ -71,10 +93,16 @@ $(document).ready(function(){
 			});
 		
 		$("#commentForm").submit(function () {
-			/* if (!$(this).valid()){
+			 if (!$(this).valid()){
 				return false;
-			}*/
-			
+			}
+			//alert(rowDetail);
+                        if(rowDetail){
+                            jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
+                            jQuery("#clistDetails").jqGrid('saveRow',rowDetail, "aa" , 'clientArray');
+                            
+                        }
+                            
 			var parametros = $(this).serializeArray();
         
 			var par = {};
@@ -90,7 +118,7 @@ $(document).ready(function(){
 			    }
 			});
 			
-			console.debug(par);
+			
 			
 			var details = [];
 			
@@ -108,20 +136,31 @@ $(document).ready(function(){
 			
 			par["lista"] = details || '';
 			
+                        par["token"] = token || '';
 			
-			var json_par = par;
-        
+                        var json_par = par;
+                                              
+                        
                
 			$.ajax({
 				    async:          true,
-				    data:               json_par,
-				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/update_menu.php",				    type:      		"post",
-				    success:            finInsert
+				    data:               'menu='+json_par,
+				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_menu.php",
+                                    type:      		"get",
+				    success:            finUpdate
 			});
+                        console.debug(par)
 			return false;
-			    
+			
+                        
 		});
 		
+                function finUpdate(data){
+                     alert("Menú ingresado correctamente");
+                     $('#content').load('principal.html');
+                     
+                }
+                
 		jQuery("#addDetails").click( function(){
 			
 			var cant = jQuery('#clistDetails').jqGrid('getGridParam','records')+1;
@@ -245,7 +284,8 @@ $(document).ready(function(){
 						    par = "\"id_order\""+":\""+ret.id_order+"\"";
 						    par = "{"+par+"}";
 						    
-						    pedidos.push(jQuery.parseJSON(par));
+						    //pedidos.push(jQuery.parseJSON(par));
+                                                    pedidos.push(ret.id_order);
 					    }
 				    }
 			    
@@ -253,8 +293,8 @@ $(document).ready(function(){
 				    $.ajax({
 					async:          true,
 					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
-					type:      		"get",
-					data :		pedidos,
+					type:      	"get",
+					data :		'orders='+pedidos,
 					success:            finConfirm,
 					error:            function(){alert("Error en la confirmación de los pedidos");$('#listOrders').trigger("reloadGrid");},
 					dataType: 		"json"
@@ -316,10 +356,10 @@ $(document).ready(function(){
 	$.template("todaysrowsimple","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}</div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//todaysmenu composite row:
-	$.template("todaysrowcomposite","<div class='row'><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
+	$.template("todaysrowcomposite","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//details row:
-	$.template("detailsrow","<div>${name_detail}: <input type='text' /></div>");
+	$.template("detailsrow","<div>${name_detail}: <input type='text' /><div class='detailid'>${id_detail}</div></div>");
 	
 	$("#todaysmenu1").click(function(){
 		$('#content').load('verMenues.html', mostrarMenues);
@@ -366,9 +406,12 @@ $(document).ready(function(){
 							$.each(compositerow.find(".details").children(), function(index, value) {
 								//armar el json para enviar!!! (ir sumando en total)
 								var jqueryobj = $(value);
-								var gusto = jqueryobj.text().substring(0,jqueryobj.text().indexOf(':'));
-								quant = jqueryobj.children().first().val(); //el input es el unico hijo
+								//var gusto = jqueryobj.text().substring(0,jqueryobj.text().indexOf(':'));
+								var d_id = jqueryobj.find(".detailid").text();
+								quant = jqueryobj.children().first().val(); //el input es el primer hijo
 								total = total + quant;
+								var obj = { "id_detail": d_id, "cant": quant };
+								details.push(obj);
 							});
 							if (total==0) {
 								alert("Debe encargar por lo menos una unidad.");
@@ -377,9 +420,10 @@ $(document).ready(function(){
 								//pedir confirmacion por "total unidades":
 								
 								//enviar el request:
+                                                                var m_id = compositerow.find(".menuid").text();
 								var parametros = { 
 									"user_token": token,
-									"menu_id": "12345",
+									"menu_id": m_id,
 									"details": details };
 								$.ajax({  
 									async: true,
