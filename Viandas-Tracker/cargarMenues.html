@@ -5,7 +5,7 @@
 				    <legend>Por Favor, ingrese el menu del d&iacute;a</legend>
 				    <p>
 					    <label for="cfecha">Fecha</label>
-					    <input id="cfecha" name="fecha" class="required"/>
+					    <input id="cfecha" name="fecha" class="required date"/>
 				    </p>
 				    <p>
 					    <label for="cmenu">Men&uacute;</label>
@@ -22,7 +22,11 @@
 				    <p>
 					    <label for="clistDetails">Detalle</label>
 					    <div id="divDetails">
-							<table id="clistDetails"></table>
+							<div id="divDetailscenter">
+									<table id="clistDetails"></table>
+									<input type="BUTTON" id="addDetails" value="Agregar Detail" />
+									<input type="BUTTON" id="delDetails" value="Borrar Detail" />
+							</div>
 					    </div>
 					    
 				    </p>

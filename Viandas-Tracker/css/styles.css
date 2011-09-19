@@ -59,7 +59,8 @@ visibility: hidden;
 
 
 #content {
-height: 400px;
+/*height: 500px;*/
+min-height : 200px;
 width: 784px;
 margin: 0 auto;
 }
@@ -202,7 +203,7 @@ display: inline;
 
 /* Estilos Formulario*/
 
-#commentForm { width: 500px; }
+#commentForm { width: 500px; padding-bottom: 50px; }
 
 #commentForm label { width: 250px; }
 
@@ -300,7 +301,12 @@ input.error { border: 1px dotted red; }
 form.cmxform .gray * { color: gray; }
 
 #divDetails{
-    
+    width:500px;
+}
+
+#divDetailscenter{
+    margin: 0 auto;
+    width:300px;
 }
 
 #todaysgrid {
@@ -371,27 +377,3 @@ display: none;
 	
 }
 
-.globant {
-	float:right;
-	margin-right:50px;
-	margin-top:150px;
-}
-
-.logoutbutton {
-	float:right;
-	padding-right:20px;
-}
-
-.logoutbutton a{
-	font-family:Arial;
-	color:#2E6E9E;
-	text-decoration:none;
-	font-weight:bold;
-}
-
-.logoutbutton a:hover{
-	font-family:Arial;
-	color:#2E6E9E;
-	text-decoration:none;
-	font-weight:bold;
-}
