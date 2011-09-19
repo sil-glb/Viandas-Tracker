@@ -160,6 +160,7 @@ $(document).ready(function(){
                                 
                           });
                        par = par + "\"detalles\":"+details;
+                       par = par + ",\"token\":\""+token+"\"";
                        par = "{"+par+"}";
                           
                        
