@@ -363,17 +363,29 @@ display: none;
 #viewmenus-container {
 display: none;
 }
-.logintext {
+
+
+.globant {
+	float:right;
+	margin-right:50px;
+	margin-top:150px;
+}
+
+.logoutbutton {
+	float:right;
+	padding-right:20px;
+}
+
+.logoutbutton a{
 	font-family:Arial;
-	color:#555555;
-	font-size:12px;
-	margin-bottom:30px;
-	text-align:center;
-	margin-top:20px;
+	color:#2E6E9E;
+	text-decoration:none;
+	font-weight:bold;
 }
 
-.fbbutton {
-	text-align:center;
-	
+.logoutbutton a:hover{
+	font-family:Arial;
+	color:#2E6E9E;
+	text-decoration:none;
+	font-weight:bold;
 }
-
