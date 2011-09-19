@@ -357,7 +357,19 @@ display: none;
 #viewmenus-container {
 display: none;
 }
+.logintext {
+	font-family:Arial;
+	color:#555555;
+	font-size:12px;
+	margin-bottom:30px;
+	text-align:center;
+	margin-top:20px;
+}
 
+.fbbutton {
+	text-align:center;
+	
+}
 
 .globant {
 	float:right;
