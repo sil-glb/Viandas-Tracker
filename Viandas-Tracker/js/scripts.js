@@ -5,28 +5,119 @@ $(document).ready(function(){
 	$('#content').load('principal.html', cargarForm);
 	
 	$("#updatemenu").click(function(){
-		$('#content').load('cargarPedidos.html', cargarForm);
+		$('#content').load('cargarMenues.html', cargarForm);
 		
 	});
 	
 	function cargarForm(){
+		var rowDetail;
 		jQuery("#clistDetails").jqGrid({
 				datatype: "local",
 				height: 50,
 				colNames:['Id','Detalle'], 
-				colModel:[ {name:'id_detail',index:'id_order', width:55}, 
-					{name:'detalle',index:'detalle', width:200}
+				colModel:[ {name:'id_detail',index:'id_detail', visible:false,width:25}, 
+					{name:'detalle',index:'detalle', editable: true, edittype:'text', width:200}
 
 					
 				], 
 				
-				caption: "Detalles"
+				caption: "Detalles",
+				rowNum:10, rowList:[10,20,30], viewrecords: true, sortorder: "desc", caption: "Full control",
+				
+
+				onSelectRow: function(id){
+					if(id && id!==rowDetail){
+						//alert("algoo");
+						//jQuery('#clistDetails').jqGrid('editRow',id,true);
+						//jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
+						//
+						//jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
+						////jQuery('#clistDetails').jqGrid('restoreRow',rowDetail);
+						//rowDetail=id;
+						}
+					
+				}
 				
 				
 				
 			});
-		$("#commentForm").validate();
 		
+		
+		
+		$("#commentForm").validate({
+				
+				
+			});
+		
+		$("#commentForm").submit(function () {
+			/* if (!$(this).valid()){
+				return false;
+			}*/
+			
+			var parametros = $(this).serializeArray();
+        
+			var par = {};
+					
+			$.each(parametros, function() {
+			    if (par[this.name] !== undefined) {
+				if (!par[this.name].push) {
+				    par[this.name] = [par[this.name]];
+				}
+				par[this.name].push(this.value || '');
+			    } else {
+				par[this.name] = this.value || '';
+			    }
+			});
+			
+			console.debug(par);
+			
+			var details = [];
+			
+			var numDetails = jQuery('#clistDetails').jqGrid('getGridParam','records');
+						
+				
+			for(var i=1;i<=numDetails;i++){
+				
+				var ret = jQuery("#clistDetails").jqGrid('getRowData',i);
+				
+				details.push(ret.detalle);
+					
+				
+			}
+			
+			par["lista"] = details || '';
+			
+			
+			var json_par = par;
+        
+               
+			$.ajax({
+				    async:          true,
+				    data:               json_par,
+				    url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/update_menu.php",				    type:      		"post",
+				    success:            finInsert
+			});
+			return false;
+			    
+		});
+		
+		jQuery("#addDetails").click( function(){
+			
+			var cant = jQuery('#clistDetails').jqGrid('getGridParam','records')+1;
+			var datarow = {id_detail:cant,detalle:"Detalle de menu"};
+			
+			var su=jQuery("#clistDetails").jqGrid('addRowData',cant,datarow);
+			
+		});
+		
+		jQuery("#delDetails").click( function(){
+			
+			var id = jQuery('#clistDetails').jqGrid('getGridParam','selrow');
+			var su=jQuery("#clistDetails").jqGrid('delRowData',id);
+			
+			
+			
+		});
 	}
 	
 	$("#viewmenus").click(function(){
@@ -68,7 +159,7 @@ $(document).ready(function(){
 		     
 			$.ajax({
 					async:          true,
-					url:		"http://10.140.11.1:8888/Viandas/get_orders.php",
+					url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_orders.php",
 					type:      		"post",
 					success:            finOrders,
 					dataType: 		"json"
@@ -140,7 +231,7 @@ $(document).ready(function(){
 					    
 				    $.ajax({
 					async:          true,
-					url:		"http://10.140.11.1:8888/Viandas/confirm_orders.php",
+					url:		"http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
 					type:      		"get",
 					data :		pedidos,
 					success:            finConfirm,
@@ -291,12 +382,13 @@ $(document).ready(function(){
 			},
 			//data: parametros,
 			dataType: "json",
-			url: "http://10.140.11.1:8888/Viandas/get_menues.php",
+			url: "http://10.140.11.1:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_menues.php",
 			type: "get"
 		});  
 		//mostrar el container de menus
 		$("#todaysmenu-container").attr('display', 'block');
 		return false;
 	};
-
+	
+	
 });
