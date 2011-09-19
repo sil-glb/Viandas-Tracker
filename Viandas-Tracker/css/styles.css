@@ -356,6 +356,9 @@ border: 1px solid black;
 background: white;
 cursor: auto;
 }
+.detailid {
+display: none;
+}
 
 #updatemenu-container {
 display: none;
