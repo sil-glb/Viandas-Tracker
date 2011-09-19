@@ -93,9 +93,9 @@ $(document).ready(function(){
 			});
 		
 		$("#commentForm").submit(function () {
-			/* if (!$(this).valid()){
+			 if (!$(this).valid()){
 				return false;
-			}*/
+			}
 			//alert(rowDetail);
                         if(rowDetail){
                             jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
@@ -146,8 +146,8 @@ $(document).ready(function(){
 				    async:          true,
 				    data:               'menu='+json_par,
 				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_menu.php",
-                                    type:      		"get"
-				    //success:            finUpdate
+                                    type:      		"get",
+				    success:            finUpdate
 			});
                         console.debug(par)
 			return false;
@@ -155,7 +155,11 @@ $(document).ready(function(){
                         
 		});
 		
-              
+                function finUpdate(data){
+                     alert("Menú ingresado correctamente");
+                     $('#content').load('principal.html');
+                     
+                }
                 
 		jQuery("#addDetails").click( function(){
 			
@@ -352,7 +356,7 @@ $(document).ready(function(){
 	$.template("todaysrowsimple","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}</div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//todaysmenu composite row:
-	$.template("todaysrowcomposite","<div class='row'><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
+	$.template("todaysrowcomposite","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}<div class='plus'>+<div class='details' id='${id_menu}0'></div></div></div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//details row:
 	$.template("detailsrow","<div>${name_detail}: <input type='text' /><div class='detailid'>${id_detail}</div></div>");
@@ -416,9 +420,10 @@ $(document).ready(function(){
 								//pedir confirmacion por "total unidades":
 								
 								//enviar el request:
+                                                                var m_id = compositerow.find(".menuid").text();
 								var parametros = { 
 									"user_token": token,
-									"menu_id": "12345",
+									"menu_id": m_id,
 									"details": details };
 								$.ajax({  
 									async: true,
