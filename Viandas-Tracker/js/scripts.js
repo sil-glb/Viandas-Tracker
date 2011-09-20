@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 	
+//------Token de Usuario de Facebook-----------------------------------------------------------------------------------------------------
         var token;
 	FB.init({appId: '114353212003918', status: true,
 	cookie: true, xfbml: true});
@@ -14,7 +15,8 @@ $(document).ready(function(){
 
               }
 	});	
-	
+
+//------Logout----------------------------------------------------------------------------------------------------------------------------	
 	$('#logout').click(function() {
 			FB.logout(function(response) {
 				window.location.href = 'login.html';
@@ -23,15 +25,24 @@ $(document).ready(function(){
 	
 	$('#content').load('principal.html');
 	
+//------Cargar Menu------------------------------------------------------------------------------------------------------------------------
 	$("#updatemenu").click(function(){
 		$('#content').load('cargarMenues.html', cargarForm);
 		
 	});
 	
+        function urlencode (str) {
+                     // URL-encodes string  
+                     // 
+                     str = (str + '').toString();
+                      // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+                     // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+                     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
+                     replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+                 };
+                 
 	function cargarForm(){
 		var rowDetail;
-                
-                
                 
                 $( "#cfecha" ).datepicker({
                             dateFormat: 'yy-mm-dd'
@@ -92,15 +103,7 @@ $(document).ready(function(){
 				
 			});
 		
-                function urlencode (str) {
-                     // URL-encodes string  
-                     // 
-                     str = (str + '').toString();
-                      // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
-                     // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
-                     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
-                     replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-                 };
+                
                  
 		$("#commentForm").submit(function () {
 			 if (!$(this).valid()){
@@ -212,7 +215,9 @@ $(document).ready(function(){
 			
 		});
 	}
-	
+
+//------Ver Pedidos realizados-----------------------------------------------------------------------------------------------------------------
+
 	$("#viewmenus").click(function(){
 		$('#content').load('verPedidos.html', cargarGrilla);
 	});
@@ -348,45 +353,8 @@ $(document).ready(function(){
 	
 	};
 	
+		
 	
-		
-	//jQuery("#listOrders").jqGrid({ 
-	//	url:'http://10.140.11.1:8888/Viandas/json.php', //http://10.140.11.1:8888/Viandas/get_orders.php',//'server.php?q=2', 
-	//	datatype: "json", 
-	//	mtype:'POST',
-	//	//postData: $("#myForm").serialize(),
-	//	colNames:['Ped No','Fecha', 'Descripción', 'Cantidad','Confirmado'], 
-	//	colModel:[ {name:'id_order',index:'id_order', width:55}, 
-	//		{name:'menu',index:'menu', width:90}, 
-	//		{name:'user',index:'user', width:250},
-	//		{name:'date',index:'date', width:80, align:"right"},
-	//		{name:'confirmed',index:'confirmed', width:80, align:"right"}
-	//	], 
-	//	rowNum:10, 
-	//	rowList:[10,20,30], 
-	//	//pager: '#pager2', 
-	//	sortname: 'id', 
-	//	viewrecords: true, 
-	//	sortorder: "desc", 
-	//	caption:"Pedidos Realizados"
-	//	}); 
-	//	
-		//jQuery("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
-		
-//		 $.ajax({
-//                    async:          true,
-//                    url:		"http://10.140.11.1:8888/Viandas/get_menues.php",
-//                    type:      		"post"
-//                    
-//		 });
-		 
-//		 $("#list2").jqGrid('navGrid','#pager',
-//                    {add:false,edit:false,del:false,search:true,refresh:true},
-//                    {},{},{},{multipleSearch:true});
-//		 
-//		 $("#list2").jqGrid('filterToolbar',
-//                    {stringResult:true,searchOnEnter:true,defaultSearch:"cn"});
-	//todaysmenu simple row:
 	$.template("todaysrowsimple","<div class='row'><div class='menuid'>${id_menu}</div><div class='menuname'>${name}</div><div class='supplier'>${supplier}</div><div class='order'><input type='button' class='pedir' id='${id_menu}' value='Hacer pedido'/></div></div>");
 	
 	//todaysmenu composite row:
@@ -395,7 +363,9 @@ $(document).ready(function(){
 	//details row:
 	$.template("detailsrow","<div>${name_detail}: <input type='text' /><div class='detailid'>${id_detail}</div></div>");
 	
-	$("#todaysmenu1").click(function(){
+        
+//------Ver Menues cargados-----------------------------------------------------------------------------------------------------------	
+        $("#todaysmenu1").click(function(){
 		$('#content').load('verMenues.html', mostrarMenues);
 		
 	});
@@ -434,9 +404,11 @@ $(document).ready(function(){
 						//setear el evento click para el boton Hacer pedido:
 						compositerow.find(".pedir").click(function(){
 							//chequear que haya al menos una empanada:
+                                                       
 							var quant = 0; 
 							var total = 0; 
 							var details = new Array();
+                                                        var listaDetalles="";
 							$.each(compositerow.find(".details").children(), function(index, value) {
 								//armar el json para enviar!!! (ir sumando en total)
 								var jqueryobj = $(value);
@@ -446,6 +418,10 @@ $(document).ready(function(){
 								total = total + quant;
 								var obj = { "id_detail": d_id, "cant": quant };
 								details.push(obj);
+                                                                if (listaDetalles != "")
+                                                                      listaDetalles = listaDetalles + ",{\"id_detail\":\""+d_id+"\",\"cant\":\""+ quant + "\"}";
+                                                               else
+                                                                      listaDetalles = "{\"id_detail\":\""+d_id+"\",\"cant\":\""+ quant + "\"}";
 							});
 							if (total==0) {
 								alert("Debe encargar por lo menos una unidad.");
@@ -459,14 +435,22 @@ $(document).ready(function(){
 									"user_token": token,
 									"menu_id": m_id,
 									"details": details };
+                                                                         
+                                                                         
+                                                               var parametros = "\"user_token\":\""+token+"\","+
+                                                                "\"menu_id\":\""+ m_id+"\","+
+                                                                "\"details\":["+listaDetalles+"]";
+                                                        
+                                                               parametros = "{"+parametros+"}";
+                                                               console.debug(parametros);
 								$.ajax({  
 									async: true,
 									success: function(data) {
 										alert("Su pedido fue registrado. En breve le enviaremos la confirmación vía email.");
 									},
-									data: parametros,
-									dataType: "json",
-									url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/hacer_pedido.php",
+									data:  'order='+urlencode(parametros),
+									
+									url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_order.php",
 									type: "get"
 								});
 							}
@@ -477,6 +461,38 @@ $(document).ready(function(){
 						simplerow.addClass(classtext);
 						simplerow.appendTo("#todaysgrid");
 						//setear el evento click para el boton Hacer pedido:
+                                                
+                                                simplerow.find(".pedir").click(function(){
+							//chequear que haya al menos una empanada:
+                                                       	
+							var total = 1; 
+							var details = new Array();							                                                                                                               
+                                                        //enviar el request:
+                                                        var m_id = simplerow.find(".menuid").text();
+                                                        //var parametros = { 
+                                                        //        "user_token": token,
+                                                        //        "menu_id": m_id,
+                                                        //        "details": details };
+                                                        
+                                                        var parametros = "\"user_token\":\""+token+"\","+
+                                                                "\"menu_id\":\""+ m_id+"\","+
+                                                                "\"details\":[]";
+                                                        
+                                                        parametros = "{"+parametros+"}";
+                                                        
+                                                        console.debug(parametros);
+                                                        $.ajax({  
+                                                                async: true,
+                                                                success: function(data) {
+                                                                        alert("Su pedido fue registrado. En breve le enviaremos la confirmación vía email.");
+                                                                },
+                                                                data:  'order='+urlencode(parametros),
+                                                                url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_order.php",
+                                                                type: "get"
+                                                        });
+							
+							return false;
+						});
 						
 					};
 				});
