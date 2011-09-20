@@ -60,9 +60,9 @@ $(document).ready(function(){
 		jQuery("#clistDetails").jqGrid({
 				datatype: "local",
 				height: 50,
-				colNames:['Id','Detalle'], 
-				colModel:[ {name:'id_detail',index:'id_detail', visible:false,width:25}, 
-					{name:'detalle',index:'detalle', editable: true, edittype:'text', width:200}
+				colNames:['Detalle'], 
+				colModel:[ //{name:'id_detail',index:'id_detail', visible:false,width:25}, 
+					{name:'detalle',index:'detalle', editable: true, edittype:'text', width:300}
 
 					
 				], 
@@ -77,7 +77,7 @@ $(document).ready(function(){
 				onSelectRow: function(id){
                                           
 					if(id && id!==rowDetail){
-						//alert("algoo");
+						
                                                
 						jQuery('#clistDetails').jqGrid('editRow',id,true);
 						jQuery('#clistDetails').jqGrid('editRow',rowDetail,false);
@@ -200,7 +200,7 @@ $(document).ready(function(){
 		jQuery("#addDetails").click( function(){
 			
 			var cant = jQuery('#clistDetails').jqGrid('getGridParam','records')+1;
-			var datarow = {id_detail:cant,detalle:"Detalle de menu"};
+			var datarow = {id_detail:cant,detalle:"Detalle "+cant};
 			
 			var su=jQuery("#clistDetails").jqGrid('addRowData',cant,datarow);
 			
@@ -328,7 +328,8 @@ $(document).ready(function(){
 					    }
 				    }
 			    
-					    
+				   
+                                   
 				    $.ajax({
 					async:          true,
 					url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/confirm_orders.php",
@@ -347,7 +348,7 @@ $(document).ready(function(){
 			    function finConfirm(data){
 				    
 				    alert("Pedidos Confirmados");
-				    $('#listOrders').trigger("reloadGrid");
+				    //$('#listOrders').trigger("reloadGrid");
 			    }
 		
 	
@@ -448,7 +449,7 @@ $(document).ready(function(){
 									success: function(data) {
 										alert("Su pedido fue registrado. En breve le enviaremos la confirmación vía email.");
 									},
-									data:  'order='+urlencode(parametros),
+									data:  'order='+parametros,
 									
 									url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_order.php",
 									type: "get"
@@ -486,7 +487,7 @@ $(document).ready(function(){
                                                                 success: function(data) {
                                                                         alert("Su pedido fue registrado. En breve le enviaremos la confirmación vía email.");
                                                                 },
-                                                                data:  'order='+urlencode(parametros),
+                                                                data:  'order='+parametros,
                                                                 url: "http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/add_order.php",
                                                                 type: "get"
                                                         });
