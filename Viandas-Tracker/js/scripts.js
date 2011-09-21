@@ -52,7 +52,8 @@ $(document).ready(function(){
 				    data:               par,
 				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_all_menues.php",
                                     type:      		"get",
-                                    success:            finMenues
+                                    success:            finMenues,
+                                   traditional: true
                 });
                 
                 function finMenues(data){
