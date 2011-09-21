@@ -80,8 +80,11 @@ $(document).ready(function(){
                             "Scala",
                             "Scheme"
                     ];
-                     
-                    availableTags=data;
+                     availableTags = [];
+                     $.each(data, function(index,value) {
+                            availableTags.push(value);
+                     });
+                    //availableTags=data;
                      
                     $( "#cmenu" ).autocomplete({
                             source: availableTags
