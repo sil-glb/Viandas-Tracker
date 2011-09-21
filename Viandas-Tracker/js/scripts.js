@@ -57,32 +57,9 @@ $(document).ready(function(){
                 });
                 
                 function finMenues(data){
-                     var availableTags = [
-                            "ActionScript",
-                            "AppleScript",
-                            "Asp",
-                            "BASIC",
-                            "C",
-                            "C++",
-                            "Clojure",
-                            "COBOL",
-                            "ColdFusion",
-                            "Erlang",
-                            "Fortran",
-                            "Groovy",
-                            "Haskell",
-                            "Java",
-                            "JavaScript",
-                            "Lisp",
-                            "Perl",
-                            "PHP",
-                            "Python",
-                            "Ruby",
-                            "Scala",
-                            "Scheme"
-                    ];
+                    
                      availableTags = [];
-                     alert(data);
+                    
                      availableTags = data.split(":"); 
                      //$.each(data, function(index,value) {
                      //       availableTags.push(value);
@@ -95,6 +72,26 @@ $(document).ready(function(){
                      
                 }
                 
+                $.ajax({
+				    async:          true,
+				    data:               par,
+				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_all_suppliers.php",
+                                    type:      		"get",
+                                    success:            finProveedor
+                                   
+                });
+                
+                function finProveedor(data){
+                    
+                     availableTags = [];
+                    
+                     availableTags = data.split(":"); 
+                                        
+                    $( "#csupplier" ).autocomplete({
+                            source: availableTags
+                    });     
+                     
+                }
                 
                 $( "#cfecha" ).datepicker({
                             dateFormat: 'yy-mm-dd'
