@@ -146,11 +146,16 @@ $(document).ready(function(){
 			});
 		
 		
-		
+		jQuery.extend(jQuery.validator.messages, {
+                     required: "Campo Requerido.",
+                     date: "Fecha inválida."
+                     
+                 });
+
 		$("#commentForm").validate({
+		    
 				
-				
-			});
+	      });
 		
                 
                  
