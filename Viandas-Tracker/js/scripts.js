@@ -44,7 +44,7 @@ $(document).ready(function(){
                  
 	function cargarForm(){
 		var rowDetail;
-                
+                alert(token);
                 var par = "user="+token;
                 
                 $.ajax({
