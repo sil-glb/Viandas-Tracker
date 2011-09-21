@@ -45,10 +45,11 @@ $(document).ready(function(){
 	function cargarForm(){
 		var rowDetail;
                 
+                var par = "user="+token;
                 
                 $.ajax({
 				    async:          true,
-				    data:               'user='+token,
+				    data:               par,
 				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_all_menues.php",
                                     type:      		"get",
                                     success:            finMenues
