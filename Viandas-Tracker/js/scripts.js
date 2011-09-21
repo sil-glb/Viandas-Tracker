@@ -82,9 +82,11 @@ $(document).ready(function(){
                             "Scheme"
                     ];
                      availableTags = [];
-                     $.each(data, function(index,value) {
-                            availableTags.push(value);
-                     });
+                     alert(data);
+                     availableTags = data.split(":"); 
+                     //$.each(data, function(index,value) {
+                     //       availableTags.push(value);
+                     //});
                     //availableTags=data;
                      
                     $( "#cmenu" ).autocomplete({
