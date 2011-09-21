@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 	
+        
 //------Token de Usuario de Facebook-----------------------------------------------------------------------------------------------------
         var token;
 	FB.init({appId: '114353212003918', status: true,
@@ -43,6 +44,47 @@ $(document).ready(function(){
                  
 	function cargarForm(){
 		var rowDetail;
+                
+                
+                $.ajax({
+				    async:          true,
+				    data:               'user='+token,
+				    url:		"http://10.140.11.67:8888/Viandas/Viandas-Tracker/Viandas-Tracker/get_all_menues.php",
+                                    type:      		"get",
+                                    success:            finMenues
+                });
+                
+                function finMenues(data){
+                     var availableTags = [
+                            "ActionScript",
+                            "AppleScript",
+                            "Asp",
+                            "BASIC",
+                            "C",
+                            "C++",
+                            "Clojure",
+                            "COBOL",
+                            "ColdFusion",
+                            "Erlang",
+                            "Fortran",
+                            "Groovy",
+                            "Haskell",
+                            "Java",
+                            "JavaScript",
+                            "Lisp",
+                            "Perl",
+                            "PHP",
+                            "Python",
+                            "Ruby",
+                            "Scala",
+                            "Scheme"
+                    ];
+                    $( "#cmenu" ).autocomplete({
+                            source: data
+                    });     
+                     
+                }
+                
                 
                 $( "#cfecha" ).datepicker({
                             dateFormat: 'yy-mm-dd'
