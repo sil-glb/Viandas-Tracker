@@ -44,7 +44,7 @@ $(document).ready(function(){
                  
 	function cargarForm(){
 		var rowDetail;
-                alert(token);
+                
                 var par = "user="+token;
                 
                 $.ajax({
@@ -80,8 +80,11 @@ $(document).ready(function(){
                             "Scala",
                             "Scheme"
                     ];
+                     
+                    availableTags=data;
+                     
                     $( "#cmenu" ).autocomplete({
-                            source: data
+                            source: availableTags
                     });     
                      
                 }
